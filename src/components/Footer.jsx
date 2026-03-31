@@ -50,7 +50,7 @@ function FooterLink({ link, onClick }) {
     <a
       href={link.href}
       onClick={onClick}
-      className="text-text-gray hover:text-text-dark transition-colors duration-200 text-sm"
+      className="group text-text-gray hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-lavender hover:to-peach transition-all duration-300 text-sm inline-block"
     >
       {link.label}
     </a>

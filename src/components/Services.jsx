@@ -323,7 +323,7 @@ function Services({ onBookClick }) {
             Не нашли нужную услугу? Свяжитесь с нами, и мы подберём оптимальное
             решение
           </p>
-          <motion.a
+          {/* <motion.a
             href="tel:+79668288878"
             className="inline-flex items-center gap-2 text-lavender-dark font-medium hover:underline"
             whileHover={{ scale: 1.05 }}
@@ -331,7 +331,7 @@ function Services({ onBookClick }) {
           >
             <Phone className="w-4 h-4" />
             +7 (966) 828-88-78
-          </motion.a>
+          </motion.a> */}
         </motion.div>
       </div>
     </section>

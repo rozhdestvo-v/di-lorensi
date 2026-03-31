@@ -2,81 +2,129 @@ import { useState, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useInView } from "../hooks/useScroll";
 import { X, ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
+import eyeImages from "../images/eyelashes";
+import browsExport from "../images/brows";
+import manicureImages from "../images/manicure";
+import padologyImages from "../images/padology";
+import hairImages from "../images/hair";
 
 // Placeholder изображения для галереи (Unsplash)
 const galleryImages = [
   {
     id: 1,
-    src: "https://images.unsplash.com/photo-1604654894610-df63bc536371?w=800&q=80",
+    src: manicureImages.manicure_1,
     alt: "Нежный розовый маникюр",
     category: "manicure",
   },
   {
     id: 2,
-    src: "https://images.unsplash.com/photo-1519014816548-bf5fe059e98b?w=800&q=80",
+    src: manicureImages.manicure_4,
     alt: "Французский маникюр",
     category: "manicure",
   },
   {
     id: 3,
-    src: "https://images.unsplash.com/photo-1632345031435-8727f6897d53?w=800&q=80",
-    alt: "Яркий дизайн ногтей",
+    src: manicureImages.manicure_5,
+    alt: "Французский маникюр",
     category: "manicure",
   },
   {
     id: 4,
-    src: "https://images.unsplash.com/photo-1522337660859-02fbefca4702?w=800&q=80",
-    alt: "Пастельный маникюр",
+    src: manicureImages.manicure_7,
+    alt: "Яркий дизайн ногтей",
     category: "manicure",
   },
   {
     id: 5,
-    src: "https://images.unsplash.com/photo-1600062947296-5a8a91441b01?w=800&q=80",
-    alt: "Ламинирование бровей",
-    category: "brows",
+    src: manicureImages.manicure_6,
+    alt: "Пастельный маникюр",
+    category: "manicure",
   },
   {
     id: 6,
-    src: "https://images.unsplash.com/photo-1587613990444-6886c0f275b7?w=800&q=80",
-    alt: "Оформление бровей",
-    category: "brows",
+    src: manicureImages.manicure_2,
+    alt: "Дизайн ногтей",
+    category: "manicure",
   },
   {
     id: 7,
-    src: "https://images.unsplash.com/photo-1596462502278-27bfdd403348?w=800&q=80",
-    alt: "Ламинирование ресниц",
-    category: "lashes",
+    src: manicureImages.manicure_3,
+    alt: "Маникюр в нюдовых тонах",
+    category: "manicure",
   },
   {
     id: 8,
-    src: "https://images.unsplash.com/photo-1588531990254-4ea3f8536f7f?w=800&q=80",
+    src: padologyImages.padology_1,
     alt: "Педикюр",
     category: "pedicure",
   },
   {
     id: 9,
-    src: "https://images.unsplash.com/photo-1599693942150-e6d04d5c2e9f?w=800&q=80",
-    alt: "Дизайн ногтей со стразами",
-    category: "manicure",
+    src: padologyImages.padology_2,
+    alt: "Педикюр",
+    category: "pedicure",
   },
   {
     id: 10,
-    src: "https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?w=800&q=80",
-    alt: "Вечерний макияж",
-    category: "makeup",
+    src: padologyImages.padology_3,
+    alt: "Педикюр",
+    category: "pedicure",
   },
   {
     id: 11,
-    src: "https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?w=800&q=80",
-    alt: "Маникюр в нюдовых тонах",
-    category: "manicure",
+    src: padologyImages.padology_4,
+    alt: "Педикюр",
+    category: "pedicure",
   },
   {
     id: 12,
-    src: "https://images.unsplash.com/photo-1526045612212-70caf35c14df?w=800&q=80",
-    alt: "Укладка волос",
+    src: browsExport.brow_1,
+    alt: "Оформление бровей",
+    category: "brows",
+  },
+  {
+    id: 13,
+    src: browsExport.brow_2,
+    alt: "Оформление бровей",
+    category: "brows",
+  },
+  {
+    id: 14,
+    src: eyeImages.eye_1,
+    alt: "Ламинирование ресниц",
+    category: "lashes",
+  },
+  {
+    id: 15,
+    src: eyeImages.eye_3,
+    alt: "Ламинирование ресниц",
+    category: "lashes",
+  },
+  {
+    id: 16,
+    src: eyeImages.eye_2,
+    alt: "Ламинирование ресниц",
+    category: "lashes",
+  },
+  {
+    id: 17,
+    src: hairImages.hair_1,
+    alt: "Стрижка и Укладка волос",
     category: "hair",
   },
+  {
+    id: 18,
+    src: hairImages.hair_2,
+    alt: "Стрижка и Укладка волос",
+    category: "hair",
+  },
+  {
+    id: 19,
+    src: hairImages.hair_3,
+    alt: "Стрижка и Укладка волос",
+    category: "hair",
+  },
+
 ];
 
 const categories = [

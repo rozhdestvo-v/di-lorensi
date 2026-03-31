@@ -13,40 +13,69 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background: #F8FAFC;
+  background: #f8fafc;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #E9D5FF 0%, #FED7D7 100%);
+  background: linear-gradient(180deg, #e9d5ff 0%, #fed7d7 100%);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #D8B4FE 0%, #FECACA 100%);
+  background: linear-gradient(180deg, #d8b4fe 0%, #fecaca 100%);
 }
 
 /* Firefox scrollbar */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #E9D5FF #F8FAFC;
+  scrollbar-color: #e9d5ff #f8fafc;
+}
+
+/* Custom scrollbar for review cards */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #e9d5ff 0%, #fed7d7 100%);
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #d8b4fe 0%, #fecaca 100%);
+}
+
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #e9d5ff #f1f5f9;
 }
 
 /* Base styles */
 body {
-  font-family: 'Inter', system-ui, sans-serif;
-  color: #1E293B;
-  background-color: #F8FAFC;
+  font-family: "Inter", system-ui, sans-serif;
+  color: #1e293b;
+  background-color: #f8fafc;
   overflow-x: hidden;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Playfair Display', Georgia, serif;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Playfair Display", Georgia, serif;
 }
 
 /* Custom selection color */
 ::selection {
-  background-color: #E9D5FF;
-  color: #1E293B;
+  background-color: #e9d5ff;
+  color: #1e293b;
 }
 
 /* Focus styles for accessibility */
@@ -55,7 +84,7 @@ a:focus-visible,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-  outline: 2px solid #E9D5FF;
+  outline: 2px solid #e9d5ff;
   outline-offset: 2px;
 }
 
@@ -73,31 +102,31 @@ textarea:focus-visible {
            hover:shadow-lg hover:scale-105 transition-all duration-300
            focus:outline-none focus:ring-2 focus:ring-lavender focus:ring-offset-2;
   }
-  
+
   .btn-secondary {
     @apply px-8 py-3 border-2 border-lavender rounded-full font-medium text-text-dark
            hover:bg-lavender hover:shadow-md transition-all duration-300
            focus:outline-none focus:ring-2 focus:ring-lavender focus:ring-offset-2;
   }
-  
+
   .section-title {
     @apply text-4xl md:text-5xl font-semibold text-center text-text-dark
            mb-4 font-display;
   }
-  
+
   .section-subtitle {
     @apply text-lg md:text-xl text-text-gray text-center max-w-2xl mx-auto mb-12;
   }
-  
+
   .card {
     @apply bg-white rounded-2xl shadow-lg p-6 
            hover:shadow-xl hover:-translate-y-1 transition-all duration-300;
   }
-  
+
   .gradient-text {
     @apply bg-clip-text text-transparent bg-pastel-gradient;
   }
-  
+
   .glass {
     @apply bg-white/80 backdrop-blur-md border border-white/20;
   }
@@ -108,14 +137,15 @@ textarea:focus-visible {
   .animate-float {
     animation: float 6s ease-in-out infinite;
   }
-  
+
   .animate-float-delayed {
     animation: float 6s ease-in-out infinite 3s;
   }
 }
 
 @keyframes float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0px);
   }
   50% {

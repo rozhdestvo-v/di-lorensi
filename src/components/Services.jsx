@@ -264,7 +264,9 @@ function Services({ onBookClick }) {
       {/* Parallax фон секции */}
       <motion.div
         className="absolute inset-0 z-0"
-        style={{ backgroundPositionY: backgroundY }}
+        style={{
+          backgroundPositionY: backgroundY,
+        }}
       >
         <div className="absolute inset-0 bg-gradient-to-b from-bgLight via-white to-bgLight" />
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-lavender to-transparent" />

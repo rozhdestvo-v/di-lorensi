@@ -1,8 +1,9 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import { FiArrowDown, FiAward } from "react-icons/fi";
+import { FiArrowDown } from "react-icons/fi";
 import { useSmoothScroll, useMediaQuery } from "../hooks/useScroll";
 import heroBackground from "../../public/images/hero_background.jpg";
+import titleIcon from "../../public/title_icon.png";
 
 // Placeholder изображения для Hero
 const heroImages = [heroBackground];
@@ -124,7 +125,11 @@ function Hero({ onBookClick }) {
             whileHover={{ rotate: 15, scale: 1.1 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <FiAward className="w-8 h-8 md:w-10 md:h-10 text-lavender-dark" />
+            <img
+              src={titleIcon}
+              alt="Di Lorensi"
+              className="w-8 h-8 md:w-10 md:h-10 text-lavender-dark"
+            />
           </motion.div>
         </motion.div>
 
@@ -135,7 +140,7 @@ function Hero({ onBookClick }) {
         >
           <span className="block">Di Lorensi</span>
           <motion.span
-            className="block gradient-text mt-2"
+            className="block gradient-text mt-2 pb-2"
             initial={{ backgroundPosition: "0% 50%" }}
             animate={{ backgroundPosition: "100% 50%" }}
             transition={{
@@ -161,10 +166,20 @@ function Hero({ onBookClick }) {
         {/* Описание */}
         <motion.p
           variants={itemVariants}
-          className="text-base md:text-lg text-text-light mb-10 md:mb-12 max-w-xl mx-auto"
+          className="text-base md:text-lg text-text-light mb-4 md:mb-6 max-w-xl mx-auto"
         >
           Студия красоты, где каждая деталь создана для вашего комфорта и
           красоты
+        </motion.p>
+
+        {/* Скидка */}
+        <motion.p
+          variants={itemVariants}
+          className="text-sm md:text-base text-text-gray mb-8 md:mb-10"
+        >
+          <span className="gradient-text font-medium">Скидка 15%</span> на
+          первый визит и <span className="font-medium text-text-dark">10%</span>{" "}
+          на второй визит в студию
         </motion.p>
 
         {/* CTA кнопки */}
@@ -183,14 +198,6 @@ function Hero({ onBookClick }) {
           >
             Записаться онлайн
           </motion.button>
-          <motion.a
-            href="tel:+79668288878"
-            className="btn-secondary text-base md:text-lg px-10 py-4"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            +7 (966) 828-88-78
-          </motion.a>
         </motion.div>
 
         {/* Дополнительные преимущества */}

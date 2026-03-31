@@ -5,7 +5,7 @@ import {
   useSmoothScroll,
   useMediaQuery,
 } from "../hooks/useScroll";
-import { Menu, X, Phone } from "lucide-react";
+import { Menu, X, Phone, Clock } from "lucide-react";
 
 const navLinks = [
   { id: "home", label: "Главная" },
@@ -137,16 +137,10 @@ function Header({ onBookClick }) {
             {/* Кнопка записи и телефон для десктопа */}
             {!isMobile && (
               <div className="flex items-center gap-4">
-                <a
-                  href="tel:+79668288878"
-                  className="flex items-center gap-2 text-text-gray hover:text-text-dark transition-colors"
-                  aria-label="Позвонить нам"
-                >
-                  <Phone className="w-4 h-4" />
-                  <span className="text-sm font-medium">
-                    +7 (966) 828-88-78
-                  </span>
-                </a>
+                <div className="flex items-center gap-2 text-text-gray hover:text-text-dark transition-colors">
+                  <Clock className="w-5 h-5" />
+                  <span className="text-lg">10:00 — 22:00</span>
+                </div>
                 <motion.button
                   onClick={onBookClick}
                   className="btn-primary text-sm"
@@ -218,14 +212,10 @@ function Header({ onBookClick }) {
               </nav>
 
               <div className="mt-auto mb-8 space-y-4">
-                <a
-                  href="tel:+7966828878"
-                  className="flex items-center gap-3 text-text-gray py-3"
-                  aria-label="Позвонить нам"
-                >
-                  <Phone className="w-5 h-5" />
-                  <span className="text-lg">+7 (966) 828-88-78</span>
-                </a>
+                <div className="display: flex gap-2">
+                  <Clock className="w-5 h-5 self-center" />
+                  <span className="text-lg">10:00 — 22:00</span>
+                </div>
                 <motion.button
                   onClick={() => {
                     onBookClick();

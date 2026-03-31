@@ -1,149 +1,122 @@
 import { motion } from "framer-motion";
 import { useInView } from "../hooks/useScroll";
-import {
-  MapPin,
-  Phone,
-  Mail,
-  Clock,
-  Camera,
-  MessageCircle,
-  Send,
-} from "lucide-react";
+import { MapPin, Phone, MessageCircle, Send } from "lucide-react";
 
-const contactInfo = [
+const salons = [
   {
-    icon: MapPin,
-    label: "Адрес",
-    value: "Санкт-Петербург, Кирочная ул., 52",
-    href: "https://yandex.ru/maps/-/CDu~KJWL",
-    linkText: "Показать на карте",
+    id: 1,
+    name: "1 Чернышевская",
+    address: "Кирочная ул., 52",
+    phone: "+7 (966) 828-88-78",
+    phoneHref: "tel:+79668288878",
+    mapLink: "https://yandex.ru/maps/-/CPbrzZnz",
+    writeLink:
+      "https://api.whatsapp.com/send/?phone=79668288878&text&type=phone_number&app_absent=0",
+    bookLink:
+      "https://n649537.yclients.com/company/614104/about?previousStepUrl=%2Fcompany%2F614104%2Fpersonal%2Fmenu%3Fo%3D&o=",
   },
   {
-    icon: Phone,
-    label: "Телефон",
-    value: "+7 (966) 828-88-78",
-    href: "tel:+79668288878",
-    linkText: "Позвонить",
+    id: 2,
+    name: "2 Сенная",
+    address: "Казанская ул., 17-19",
+    phone: "+7 (931) 399-80-88",
+    phoneHref: "tel:+79313998088",
+    mapLink: "https://yandex.ru/maps/-/CPbrvKLb",
+    writeLink:
+      "https://api.whatsapp.com/send/?phone=79313998088&text&type=phone_number&app_absent=0",
+    bookLink:
+      "https://n997014.yclients.com/company/925753/about?previousStepUrl=%2Fcompany%2F925753%2Fpersonal%2Fmenu%3Fo%3D&o=",
   },
   {
-    icon: Mail,
-    label: "Email",
-    value: "di.lorensi@mail.ru",
-    href: "mailto:di.lorensi@mail.ru",
-    linkText: "Написать",
+    id: 3,
+    name: "3 Петроградская",
+    address: "Большая Пушкарская, 54",
+    phone: "+7 (966) 864-08-88",
+    phoneHref: "tel:+79668640888",
+    mapLink: "https://yandex.ru/maps/-/CPbrvR-O",
+    writeLink:
+      "https://api.whatsapp.com/send/?phone=79668640888&text&type=phone_number&app_absent=0",
+    bookLink:
+      "https://n1009071.yclients.com/company/936099/about?previousStepUrl=%2Fcompany%2F936099%2Fpersonal%2Fmenu%3Fo%3D&o=",
   },
   {
-    icon: Clock,
-    label: "Режим работы",
-    value: "Ежедневно с 10:00 до 22:00",
-    href: null,
-    linkText: null,
+    id: 4,
+    name: "4 Горьковская",
+    address: "Кронверкский пр., 51",
+    phone: "+7 (962) 692-08-88",
+    phoneHref: "tel:+79626920888",
+    mapLink: "https://yandex.ru/maps/-/CPbrrS9O",
+    writeLink:
+      "https://api.whatsapp.com/send/?phone=79626920888&text&type=phone_number&app_absent=0",
+    bookLink:
+      "https://n883270.yclients.com/company/823935/about?o=&previousStepUrl=%2Fcompany%2F823935%2Fpersonal%2Fmenu%3Fo%3D",
   },
 ];
 
-const socialLinks = [
-  {
-    icon: Camera,
-    label: "Instagram",
-    href: "https://instagram.com/di_lorensi",
-    color: "from-purple-500 to-pink-500",
-  },
-  {
-    icon: MessageCircle,
-    label: "Telegram",
-    href: "https://t.me/di_lorensi",
-    color: "from-blue-400 to-blue-600",
-  },
-  {
-    icon: Send,
-    label: "WhatsApp",
-    href: "https://wa.me/79668288878",
-    color: "from-green-400 to-green-600",
-  },
-];
-
-function ContactItem({ item, index }) {
-  const Icon = item.icon;
-
+function SalonItem({ salon, index }) {
   return (
     <motion.div
       initial={{ x: -30, opacity: 0 }}
       whileInView={{ x: 0, opacity: 1 }}
       viewport={{ once: true }}
       transition={{ delay: index * 0.1, duration: 0.5 }}
-      className="flex items-start gap-4"
+      className="space-y-3"
     >
-      <motion.div
-        className="w-12 h-12 rounded-2xl bg-pastel-gradient flex items-center justify-center flex-shrink-0"
-        whileHover={{ scale: 1.1, rotate: 5 }}
-        transition={{ type: "spring", stiffness: 300 }}
-      >
-        <Icon className="w-6 h-6 text-white" />
-      </motion.div>
-      <div>
-        <h4 className="text-sm font-medium text-text-light mb-1">
-          {item.label}
-        </h4>
-        {item.href ? (
+      {/* Название */}
+      <h3 className="text-lg font-display font-semibold text-text-dark">
+        {salon.name}
+      </h3>
+
+      {/* Адрес и телефон */}
+      <div className="space-y-2 text-sm text-text-gray">
+        <div className="flex items-center gap-2">
+          <MapPin className="w-4 h-4 text-lavender-dark flex-shrink-0" />
           <a
-            href={item.href}
-            target={item.href.startsWith("http") ? "_blank" : undefined}
-            rel={
-              item.href.startsWith("http") ? "noopener noreferrer" : undefined
-            }
-            className="text-lg font-medium text-text-dark hover:gradient-text transition-colors"
-          >
-            {item.value}
-          </a>
-        ) : (
-          <p className="text-lg font-medium text-text-dark">{item.value}</p>
-        )}
-        {item.linkText && (
-          <a
-            href={item.href}
+            href={salon.mapLink}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm text-lavender-dark hover:underline inline-flex items-center gap-1 mt-1"
+            className="hover:text-lavender-dark transition-colors"
           >
-            <Send className="w-3 h-3" />
-            {item.linkText}
+            {salon.address}
           </a>
-        )}
+        </div>
+        <div className="flex items-center gap-2">
+          <Phone className="w-4 h-4 text-lavender-dark flex-shrink-0" />
+          <a
+            href={salon.phoneHref}
+            className="hover:text-lavender-dark transition-colors"
+          >
+            {salon.phone}
+          </a>
+        </div>
+      </div>
+
+      {/* Кнопки */}
+      <div className="flex gap-2">
+        <motion.a
+          href={salon.writeLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 border-2 border-lavender rounded-full text-sm font-medium text-text-dark hover:bg-lavender/20 transition-colors"
+        >
+          <MessageCircle className="w-4 h-4" />
+          Написать
+        </motion.a>
+        <motion.a
+          href={salon.bookLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 bg-pastel-gradient rounded-full text-sm font-medium text-text-dark hover:shadow-lg transition-shadow"
+        >
+          <Send className="w-4 h-4" />
+          Online-запись
+        </motion.a>
       </div>
     </motion.div>
-  );
-}
-
-function SocialLink({ social, index }) {
-  const Icon = social.icon;
-
-  return (
-    <motion.a
-      href={social.href}
-      target="_blank"
-      rel="noopener noreferrer"
-      initial={{ y: 30, opacity: 0 }}
-      whileInView={{ y: 0, opacity: 1 }}
-      viewport={{ once: true }}
-      transition={{ delay: index * 0.15, duration: 0.5 }}
-      whileHover={{ y: -5, scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-      className="group relative overflow-hidden w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-white shadow-lg flex items-center justify-center"
-      aria-label={social.label}
-    >
-      {/* Градиент фон при наведении */}
-      <div
-        className={`absolute inset-0 bg-gradient-to-br ${social.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
-      />
-
-      {/* Иконка */}
-      <Icon className="w-7 h-7 md:w-8 md:h-8 text-text-gray group-hover:text-white transition-colors duration-300 relative z-10" />
-
-      {/* Подпись */}
-      <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-xs font-medium text-text-dark opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
-        {social.label}
-      </span>
-    </motion.a>
   );
 }
 
@@ -209,7 +182,7 @@ function Contacts({ onBookClick }) {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
           {/* Контактная информация */}
           <motion.div
             initial={{ x: -50, opacity: 0 }}
@@ -217,47 +190,12 @@ function Contacts({ onBookClick }) {
             transition={{ duration: 0.8, delay: 0.3 }}
             className="space-y-8"
           >
-            {/* Карточки контактов */}
-            <div className="space-y-6">
-              {contactInfo.map((item, index) => (
-                <ContactItem key={index} item={item} index={index} />
+            {/* Карточки салонов */}
+            <div className="space-y-8">
+              {salons.map((salon, index) => (
+                <SalonItem key={salon.id} salon={salon} index={index} />
               ))}
             </div>
-
-            {/* Соцсети */}
-            <div>
-              <h4 className="text-lg font-medium text-text-dark mb-4">
-                Мы в социальных сетях
-              </h4>
-              <div className="flex gap-4">
-                {socialLinks.map((social, index) => (
-                  <SocialLink key={index} social={social} index={index + 4} />
-                ))}
-              </div>
-            </div>
-
-            {/* CTA кнопка */}
-            <motion.div
-              initial={{ y: 30, opacity: 0 }}
-              animate={isSectionInView ? { y: 0, opacity: 1 } : {}}
-              transition={{ delay: 0.8, duration: 0.6 }}
-              className="pt-6"
-            >
-              <motion.button
-                onClick={onBookClick}
-                className="btn-primary w-full md:w-auto text-lg px-12 py-4"
-                whileHover={{
-                  scale: 1.02,
-                  boxShadow: "0 20px 60px -15px rgba(233, 213, 255, 0.6)",
-                }}
-                whileTap={{ scale: 0.98 }}
-              >
-                Записаться онлайн
-              </motion.button>
-              <p className="text-sm text-text-light mt-4">
-                Или позвоните нам: +7 (966) 828-88-78
-              </p>
-            </motion.div>
           </motion.div>
 
           {/* Карта */}
@@ -265,85 +203,21 @@ function Contacts({ onBookClick }) {
             initial={{ x: 50, opacity: 0 }}
             animate={isSectionInView ? { x: 0, opacity: 1 } : {}}
             transition={{ duration: 0.8, delay: 0.5 }}
-            className="relative h-[400px] md:h-[500px] rounded-3xl overflow-hidden shadow-2xl"
+            className="relative h-[400px] md:h-[700px] rounded-3xl overflow-hidden shadow-2xl"
           >
             {/* iframe Яндекс.Карт */}
             <iframe
-              src="https://yandex.ru/map-widget/v1/?ll=30.369090%2C59.934289&mode=search&ol=geo&ouri=ymapsbm1%3A%2F%2Fgeo%3Fdata%3DCgg1NzQ0MTIwNBJO0KDQvtGB0YHQuNGPLCDQodCw0L3QutGCLdCf0LXRgtC10YDQsdGD0YDQsywg0JrRgNC10LzQuNC90LPRgNCw0YHQutCw0Y8g0JrQvtC90L7QtNC90LAsIDUyIgoNekJWQhXnH1VC&z=16.57"
+              src="https://yandex.ru/map-widget/v1/?um=constructor%3A73c6b4f296517c899a49d85f7d4eb03c53d894ac8752675ec96948ee0ee64de9&amp;source=constructor"
               width="100%"
               height="100%"
               frameBorder="0"
               allowFullScreen={true}
-              title="Карта — Di Lorensi на Кирочной 52"
+              title="Карта — Di Lorensi"
               loading="lazy"
               className="absolute inset-0 w-full h-full"
             />
-
-            {/* Overlay с адресом */}
-            <motion.div
-              initial={{ y: 20, opacity: 0 }}
-              animate={isSectionInView ? { y: 0, opacity: 1 } : {}}
-              transition={{ delay: 1, duration: 0.6 }}
-              className="absolute bottom-4 left-4 right-4 md:left-6 md:right-6 md:bottom-6"
-            >
-              <div className="glass rounded-2xl p-4 md:p-5 shadow-lg">
-                <div className="flex items-start gap-3">
-                  <MapPin className="w-5 h-5 text-lavender-dark flex-shrink-0 mt-0.5" />
-                  <div>
-                    <p className="font-medium text-text-dark">
-                      Санкт-Петербург, Кирочная ул., 52
-                    </p>
-                    <p className="text-sm text-text-light mt-1">
-                      Метро «Чернышевская» — 5 минут пешком
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
           </motion.div>
         </div>
-
-        {/* Дополнительная информация */}
-        <motion.div
-          initial={{ y: 50, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ delay: 0.5 }}
-          className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6"
-        >
-          {[
-            {
-              title: "Бесплатная парковка",
-              description:
-                "Для наших клиентов есть парковочные места рядом с салоном",
-              icon: "🚗",
-            },
-            {
-              title: "Wi-Fi и напитки",
-              description: "Бесплатный Wi-Fi, кофе и чай во время процедуры",
-              icon: "☕",
-            },
-            {
-              title: "Подарочные сертификаты",
-              description:
-                "Идеальный подарок для близких — сертификат на любую сумму",
-              icon: "🎁",
-            },
-          ].map((item, index) => (
-            <motion.div
-              key={index}
-              className="card text-center p-6"
-              whileHover={{ y: -5, scale: 1.02 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <div className="text-4xl mb-3">{item.icon}</div>
-              <h4 className="font-display font-semibold text-text-dark mb-2">
-                {item.title}
-              </h4>
-              <p className="text-sm text-text-gray">{item.description}</p>
-            </motion.div>
-          ))}
-        </motion.div>
       </div>
     </section>
   );

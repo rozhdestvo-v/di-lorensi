@@ -10,6 +10,7 @@ import {
   Phone,
   Mail,
 } from "lucide-react";
+import { Vk_Icon } from "../../public/vk_icon";
 
 const footerLinks = {
   services: [
@@ -36,12 +37,12 @@ const footerLinks = {
 
 const socialLinks = [
   {
-    icon: Camera,
-    label: "Instagram",
-    href: "https://instagram.com/di_lorensi",
+    icon: <Vk_Icon />,
+    label: "Vk",
+    href: "https://vk.com/di.lorensi",
   },
-  { icon: MessageCircle, label: "Telegram", href: "https://t.me/di_lorensi" },
-  { icon: Send, label: "WhatsApp", href: "https://wa.me/79668288878" },
+  // { icon: MessageCircle, label: "Telegram", href: "https://t.me/di_lorensi" },
+  // { icon: Send, label: "WhatsApp", href: "https://wa.me/79668288878" },
 ];
 
 function FooterLink({ link, onClick }) {
@@ -99,9 +100,9 @@ function Footer() {
       <div className="container mx-auto px-4 md:px-8 relative z-10">
         {/* Верхняя часть */}
         <div className="py-12 md:py-16 border-b border-white/10">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 md:gap-12">
+          <div className="flex flex-col lg:flex-row justify-between gap-8 lg:gap-12">
             {/* Логотип и описание */}
-            <div className="lg:col-span-2">
+            <div className="lg:max-w-sm">
               <a href="#home" className="inline-block mb-4">
                 <span className="text-3xl md:text-4xl font-display font-semibold gradient-text">
                   Di Lorensi
@@ -111,32 +112,10 @@ function Footer() {
                 Студия красоты в центре Санкт-Петербурга. Профессиональный уход
                 за ногтями, бровями и ресницами.
               </p>
-
-              {/* Контакты в футере */}
-              <div className="space-y-3">
-                <a
-                  href="tel:+79668288878"
-                  className="flex items-center gap-3 text-white/80 hover:text-white transition-colors text-sm"
-                >
-                  <Phone className="w-4 h-4" />
-                  +7 (966) 828-88-78
-                </a>
-                <a
-                  href="mailto:di.lorensi@mail.ru"
-                  className="flex items-center gap-3 text-white/80 hover:text-white transition-colors text-sm"
-                >
-                  <Mail className="w-4 h-4" />
-                  di.lorensi@mail.ru
-                </a>
-                <div className="flex items-center gap-3 text-white/80 text-sm">
-                  <MapPin className="w-4 h-4 flex-shrink-0" />
-                  <span>СПб, Кирочная ул., 52</span>
-                </div>
-              </div>
             </div>
 
             {/* Ссылки на услуги - десктоп */}
-            <div className="hidden lg:block">
+            <div className="hidden lg:block flex-shrink-0">
               <h4 className="font-display font-semibold text-lg mb-4">
                 Услуги
               </h4>
@@ -153,7 +132,7 @@ function Footer() {
             </div>
 
             {/* Ссылки на компанию - десктоп */}
-            <div className="hidden lg:block">
+            <div className="hidden lg:block flex-shrink-0">
               <h4 className="font-display font-semibold text-lg mb-4">
                 Компания
               </h4>
@@ -170,7 +149,7 @@ function Footer() {
             </div>
 
             {/* Соцсети и рассылка */}
-            <div>
+            <div className="flex-shrink-0">
               <h4 className="font-display font-semibold text-lg mb-4">
                 Мы в соцсетях
               </h4>
@@ -186,7 +165,8 @@ function Footer() {
                     whileTap={{ scale: 0.9 }}
                     aria-label={social.label}
                   >
-                    <social.icon className="w-5 h-5 text-white" />
+                    {/* <social.icon className="w-5 h-5 text-white" /> */}
+                    {social.icon}
                   </motion.a>
                 ))}
               </div>
@@ -255,11 +235,11 @@ function Footer() {
             >
               <Heart className="w-4 h-4 text-blush-dark" />
             </motion.span>
-            <span>в Санкт-Петербурге</span>
+            <span>Владиславом Рождественским</span>
           </div>
 
           {/* Юридические ссылки */}
-          <div className="flex flex-wrap justify-center gap-4">
+          {/* <div className="flex flex-wrap justify-center gap-4">
             {footerLinks.legal.map((link, index) => (
               <a
                 key={index}
@@ -269,7 +249,7 @@ function Footer() {
                 {link.label}
               </a>
             ))}
-          </div>
+          </div> */}
         </div>
       </div>
     </footer>

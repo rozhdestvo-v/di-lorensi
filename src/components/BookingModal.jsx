@@ -1,133 +1,116 @@
-import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import {
-  X,
-  Calendar,
-  Clock,
-  User,
-  Phone,
-  Mail,
-  Check,
-  AlertCircle,
-} from "lucide-react";
-import {
-  bookingSchema,
-  servicesList,
-  timeSlots,
-  formatPhone,
-} from "../utils/formConfig";
+import { X, MapPin, Phone, MessageCircle, Send } from "lucide-react";
 
-function BookingModal({ isOpen, onClose, preselectedService }) {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [selectedService, setSelectedService] = useState(
-    preselectedService?.id || "",
+const salons = [
+  {
+    id: 1,
+    name: "1 Чернышевская",
+    address: "Кирочная ул., 52",
+    phone: "+7 (966) 828-88-78",
+    phoneHref: "tel:+79668288878",
+    mapLink: "https://yandex.ru/maps/-/CPbrzZnz",
+    writeLink: "https://api.whatsapp.com/send/?phone=79668288878&text&type=phone_number&app_absent=0",
+    bookLink: "https://n649537.yclients.com/company/614104/about?previousStepUrl=%2Fcompany%2F614104%2Fpersonal%2Fmenu%3Fo%3D&o=",
+  },
+  {
+    id: 2,
+    name: "2 Сенная",
+    address: "Казанская ул., 17-19",
+    phone: "+7 (931) 399-80-88",
+    phoneHref: "tel:+79313998088",
+    mapLink: "https://yandex.ru/maps/-/CPbrvKLb",
+    writeLink: "https://api.whatsapp.com/send/?phone=79313998088&text&type=phone_number&app_absent=0",
+    bookLink: "https://n997014.yclients.com/company/925753/about?previousStepUrl=%2Fcompany%2F925753%2Fpersonal%2Fmenu%3Fo%3D&o=",
+  },
+  {
+    id: 3,
+    name: "3 Петроградская",
+    address: "Большая Пушкарская, 54",
+    phone: "+7 (966) 864-08-88",
+    phoneHref: "tel:+79668640888",
+    mapLink: "https://yandex.ru/maps/-/CPbrvR-O",
+    writeLink: "https://api.whatsapp.com/send/?phone=79668640888&text&type=phone_number&app_absent=0",
+    bookLink: "https://n1009071.yclients.com/company/936099/about?previousStepUrl=%2Fcompany%2F936099%2Fpersonal%2Fmenu%3Fo%3D&o=",
+  },
+  {
+    id: 4,
+    name: "4 Горьковская",
+    address: "Кронверкский пр., 51",
+    phone: "+7 (962) 692-08-88",
+    phoneHref: "tel:+79626920888",
+    mapLink: "https://yandex.ru/maps/-/CPbrrS9O",
+    writeLink: "https://api.whatsapp.com/send/?phone=79626920888&text&type=phone_number&app_absent=0",
+    bookLink: "https://n883270.yclients.com/company/823935/about?o=&previousStepUrl=%2Fcompany%2F823935%2Fpersonal%2Fmenu%3Fo%3D",
+  },
+];
+
+function SalonCard({ salon, index }) {
+  return (
+    <motion.div
+      initial={{ y: 20, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ delay: index * 0.1, duration: 0.4 }}
+      className="space-y-2"
+    >
+      {/* Название */}
+      <h3 className="text-base font-display font-semibold text-text-dark">
+        {salon.name}
+      </h3>
+
+      {/* Адрес и телефон */}
+      <div className="space-y-0.5 text-xs text-text-gray">
+        <div className="flex items-center gap-1.5">
+          <MapPin className="w-3.5 h-3.5 text-lavender-dark flex-shrink-0" />
+          <a
+            href={salon.mapLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-lavender-dark transition-colors"
+          >
+            {salon.address}
+          </a>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <Phone className="w-3.5 h-3.5 text-lavender-dark flex-shrink-0" />
+          <a
+            href={salon.phoneHref}
+            className="hover:text-lavender-dark transition-colors"
+          >
+            {salon.phone}
+          </a>
+        </div>
+      </div>
+
+      {/* Кнопки */}
+      <div className="flex gap-1.5 pt-0.5">
+        <motion.a
+          href={salon.writeLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          className="flex-1 flex items-center justify-center gap-1 px-2.5 py-2 border-2 border-lavender rounded-full text-xs font-medium text-text-dark hover:bg-lavender/20 transition-colors"
+        >
+          <MessageCircle className="w-3.5 h-3.5" />
+          Написать
+        </motion.a>
+        <motion.a
+          href={salon.bookLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          className="flex-1 flex items-center justify-center gap-1 px-2.5 py-2 bg-pastel-gradient rounded-full text-xs font-medium text-text-dark hover:shadow-lg transition-shadow"
+        >
+          <Send className="w-3.5 h-3.5" />
+          Online-запись
+        </motion.a>
+      </div>
+    </motion.div>
   );
-  const [formattedPhone, setFormattedPhone] = useState("");
+}
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-    watch,
-    reset,
-  } = useForm({
-    resolver: yupResolver(bookingSchema),
-    defaultValues: {
-      name: "",
-      phone: "",
-      email: "",
-      service: preselectedService?.id || "",
-      date: "",
-      time: "",
-      comment: "",
-    },
-  });
-
-  const watchDate = watch("date");
-
-  // Минимальная дата - завтра
-  const getMinDate = () => {
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    return tomorrow.toISOString().split("T")[0];
-  };
-
-  // Максимальная дата - 3 месяца вперёд
-  const getMaxDate = () => {
-    const maxDate = new Date();
-    maxDate.setMonth(maxDate.getMonth() + 3);
-    return maxDate.toISOString().split("T")[0];
-  };
-
-  useEffect(() => {
-    if (preselectedService) {
-      setSelectedService(preselectedService.id);
-      setValue("service", preselectedService.id);
-    }
-  }, [preselectedService, setValue]);
-
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-      if (!isSuccess) {
-        reset();
-        setFormattedPhone("");
-      }
-    }
-    return () => {
-      document.body.style.overflow = "unset";
-    };
-  }, [isOpen, isSuccess, reset]);
-
-  const handlePhoneChange = (e) => {
-    const formatted = formatPhone(e.target.value);
-    setFormattedPhone(formatted);
-    setValue("phone", formatted);
-  };
-
-  const onSubmit = async (data) => {
-    setIsSubmitting(true);
-
-    // Имитация отправки формы
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    // Здесь должна быть реальная отправка на сервер
-    // Для демонстрации просто показываем успех
-    console.log("Форма отправлена:", {
-      ...data,
-      service: servicesList.find((s) => s.id === data.service),
-    });
-
-    // Отправка на email (в реальности нужен backend)
-    // Можно использовать emailjs или другой сервис
-    setIsSubmitting(false);
-    setIsSuccess(true);
-
-    // Закрыть модальное окно через 3 секунды
-    setTimeout(() => {
-      setIsSuccess(false);
-      onClose();
-    }, 3000);
-  };
-
-  const modalVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      },
-    },
-    exit: { opacity: 0 },
-  };
-
+function BookingModal({ isOpen, onClose }) {
   const contentVariants = {
     hidden: { scale: 0.9, opacity: 0, y: 50 },
     visible: {
@@ -142,55 +125,6 @@ function BookingModal({ isOpen, onClose, preselectedService }) {
     },
     exit: { scale: 0.9, opacity: 0, y: 50 },
   };
-
-  const inputBase = `w-full px-4 py-3 rounded-xl border bg-white/80 backdrop-blur-sm
-    focus:outline-none focus:ring-2 focus:ring-lavender focus:border-transparent
-    transition-all duration-200 placeholder:text-text-light`;
-
-  const inputError = "border-rose-300 focus:ring-rose-300";
-  const inputValid = "border-mint-dark focus:ring-mint-dark";
-
-  if (isSuccess) {
-    return (
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
-            onClick={onClose}
-          >
-            <motion.div
-              initial={{ scale: 0.5, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.5, opacity: 0 }}
-              transition={{ type: "spring", damping: 20 }}
-              className="bg-white rounded-3xl p-8 max-w-md w-full text-center shadow-2xl"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <motion.div
-                className="w-20 h-20 mx-auto mb-6 bg-mint rounded-full flex items-center justify-center"
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{ duration: 0.5, repeat: Infinity }}
-              >
-                <Check className="w-10 h-10 text-white" />
-              </motion.div>
-              <h3 className="text-2xl font-display font-semibold text-text-dark mb-2">
-                Заявка отправлена!
-              </h3>
-              <p className="text-text-gray mb-4">
-                Мы свяжемся с вами в ближайшее время для подтверждения записи
-              </p>
-              <p className="text-sm text-text-light">
-                Письмо с подтверждением отправлено на вашу почту
-              </p>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    );
-  }
 
   return (
     <AnimatePresence>
@@ -210,7 +144,7 @@ function BookingModal({ isOpen, onClose, preselectedService }) {
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="bg-white rounded-3xl w-full max-w-2xl shadow-2xl my-auto"
+            className="bg-white rounded-3xl w-full max-w-4xl shadow-2xl my-auto"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Заголовок */}
@@ -220,10 +154,10 @@ function BookingModal({ isOpen, onClose, preselectedService }) {
                   id="modal-title"
                   className="text-2xl font-display font-semibold text-text-dark"
                 >
-                  Онлайн-запись
+                  Наши салоны
                 </h2>
                 <p className="text-text-gray text-sm mt-1">
-                  Заполните форму и мы свяжемся с вами
+                  Выберите удобный салон для записи
                 </p>
               </div>
               <motion.button
@@ -237,285 +171,33 @@ function BookingModal({ isOpen, onClose, preselectedService }) {
               </motion.button>
             </div>
 
-            {/* Форма */}
-            <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-5">
-              {/* Имя */}
-              <div>
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-medium text-text-dark mb-2"
-                >
-                  Ваше имя *
-                </label>
-                <div className="relative">
-                  <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-text-light" />
-                  <input
-                    id="name"
-                    type="text"
-                    {...register("name")}
-                    className={`${inputBase} pl-12 ${errors.name ? inputError : inputValid}`}
-                    placeholder="Иван Иванов"
-                    autoComplete="name"
-                  />
-                </div>
-                {errors.name && (
-                  <motion.p
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="text-rose-500 text-sm mt-1 flex items-center gap-1"
-                  >
-                    <AlertCircle className="w-4 h-4" />
-                    {errors.name.message}
-                  </motion.p>
-                )}
+            {/* Салоны */}
+            <div className="p-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+                {salons.map((salon, index) => (
+                  <SalonCard key={salon.id} salon={salon} index={index} />
+                ))}
               </div>
 
-              {/* Телефон и Email в одну строку на больших экранах */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                {/* Телефон */}
-                <div>
-                  <label
-                    htmlFor="phone"
-                    className="block text-sm font-medium text-text-dark mb-2"
-                  >
-                    Телефон *
-                  </label>
-                  <div className="relative">
-                    <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-text-light" />
-                    <input
-                      id="phone"
-                      type="tel"
-                      {...register("phone")}
-                      value={formattedPhone}
-                      onChange={handlePhoneChange}
-                      className={`${inputBase} pl-12 ${errors.phone ? inputError : inputValid}`}
-                      placeholder="+7 (___) ___-__-__"
-                      autoComplete="tel"
-                    />
-                  </div>
-                  {errors.phone && (
-                    <motion.p
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="text-rose-500 text-sm mt-1 flex items-center gap-1"
-                    >
-                      <AlertCircle className="w-4 h-4" />
-                      {errors.phone.message}
-                    </motion.p>
-                  )}
-                </div>
-
-                {/* Email */}
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-medium text-text-dark mb-2"
-                  >
-                    Email *
-                  </label>
-                  <div className="relative">
-                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-text-light" />
-                    <input
-                      id="email"
-                      type="email"
-                      {...register("email")}
-                      className={`${inputBase} pl-12 ${errors.email ? inputError : inputValid}`}
-                      placeholder="example@mail.ru"
-                      autoComplete="email"
-                    />
-                  </div>
-                  {errors.email && (
-                    <motion.p
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="text-rose-500 text-sm mt-1 flex items-center gap-1"
-                    >
-                      <AlertCircle className="w-4 h-4" />
-                      {errors.email.message}
-                    </motion.p>
-                  )}
-                </div>
-              </div>
-
-              {/* Услуга */}
-              <div>
-                <label
-                  htmlFor="service"
-                  className="block text-sm font-medium text-text-dark mb-2"
-                >
-                  Услуга *
-                </label>
-                <div className="relative">
-                  <select
-                    id="service"
-                    {...register("service")}
-                    value={selectedService}
-                    onChange={(e) => {
-                      setSelectedService(e.target.value);
-                      setValue("service", e.target.value);
-                    }}
-                    className={`${inputBase} appearance-none cursor-pointer ${
-                      errors.service ? inputError : inputValid
-                    }`}
-                  >
-                    <option value="">Выберите услугу</option>
-                    {servicesList.map((service) => (
-                      <option key={service.id} value={service.id}>
-                        {service.name} — {service.price}₽ ({service.duration})
-                      </option>
-                    ))}
-                  </select>
-                  <Check className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-text-light pointer-events-none" />
-                </div>
-                {errors.service && (
-                  <motion.p
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="text-rose-500 text-sm mt-1 flex items-center gap-1"
-                  >
-                    <AlertCircle className="w-4 h-4" />
-                    {errors.service.message}
-                  </motion.p>
-                )}
-              </div>
-
-              {/* Дата и Время */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                {/* Дата */}
-                <div>
-                  <label
-                    htmlFor="date"
-                    className="block text-sm font-medium text-text-dark mb-2"
-                  >
-                    Дата *
-                  </label>
-                  <div className="relative">
-                    <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-text-light" />
-                    <input
-                      id="date"
-                      type="date"
-                      {...register("date")}
-                      min={getMinDate()}
-                      max={getMaxDate()}
-                      className={`${inputBase} pl-12 ${errors.date ? inputError : inputValid}`}
-                    />
-                  </div>
-                  {errors.date && (
-                    <motion.p
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="text-rose-500 text-sm mt-1 flex items-center gap-1"
-                    >
-                      <AlertCircle className="w-4 h-4" />
-                      {errors.date.message}
-                    </motion.p>
-                  )}
-                </div>
-
-                {/* Время */}
-                <div>
-                  <label
-                    htmlFor="time"
-                    className="block text-sm font-medium text-text-dark mb-2"
-                  >
-                    Время *
-                  </label>
-                  <div className="relative">
-                    <Clock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-text-light" />
-                    <select
-                      id="time"
-                      {...register("time")}
-                      disabled={!watchDate}
-                      className={`${inputBase} pl-12 ${
-                        errors.time ? inputError : inputValid
-                      } ${!watchDate ? "opacity-50 cursor-not-allowed" : ""}`}
-                    >
-                      <option value="">
-                        {watchDate ? "Выберите время" : "Сначала выберите дату"}
-                      </option>
-                      {timeSlots.map((time) => (
-                        <option key={time} value={time}>
-                          {time}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  {errors.time && (
-                    <motion.p
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="text-rose-500 text-sm mt-1 flex items-center gap-1"
-                    >
-                      <AlertCircle className="w-4 h-4" />
-                      {errors.time.message}
-                    </motion.p>
-                  )}
-                </div>
-              </div>
-
-              {/* Комментарий */}
-              <div>
-                <label
-                  htmlFor="comment"
-                  className="block text-sm font-medium text-text-dark mb-2"
-                >
-                  Комментарий (необязательно)
-                </label>
-                <textarea
-                  id="comment"
-                  {...register("comment")}
-                  rows={3}
-                  className={`${inputBase} resize-none ${
-                    errors.comment ? inputError : inputValid
-                  }`}
-                  placeholder="Пожелания или особые требования..."
-                />
-                {errors.comment && (
-                  <motion.p
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="text-rose-500 text-sm mt-1 flex items-center gap-1"
-                  >
-                    <AlertCircle className="w-4 h-4" />
-                    {errors.comment.message}
-                  </motion.p>
-                )}
-              </div>
-
-              {/* Кнопка отправки */}
-              <motion.button
-                type="submit"
-                disabled={isSubmitting}
-                className="btn-primary w-full py-4 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
-                whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
+              {/* Карта */}
+              <motion.div
+                initial={{ y: 30, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.4, duration: 0.6 }}
+                className="relative h-[300px] md:h-[400px] rounded-2xl overflow-hidden shadow-xl"
               >
-                {isSubmitting ? (
-                  <span className="flex items-center justify-center gap-2">
-                    <motion.span
-                      className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
-                      animate={{ rotate: 360 }}
-                      transition={{
-                        duration: 1,
-                        repeat: Infinity,
-                        ease: "linear",
-                      }}
-                    />
-                    Отправка...
-                  </span>
-                ) : (
-                  "Записаться"
-                )}
-              </motion.button>
-
-              {/* Информация */}
-              <p className="text-xs text-text-light text-center">
-                Нажимая кнопку, вы соглашаетесь с{" "}
-                <a href="#" className="underline hover:text-lavender-dark">
-                  политикой конфиденциальности
-                </a>
-              </p>
-            </form>
+                <iframe
+                  src="https://yandex.ru/map-widget/v1/?um=constructor%3A73c6b4f296517c899a49d85f7d4eb03c53d894ac8752675ec96948ee0ee64de9&amp;source=constructor"
+                  width="100%"
+                  height="100%"
+                  frameBorder="0"
+                  allowFullScreen={true}
+                  title="Карта — Салоны Di Lorensi"
+                  loading="lazy"
+                  className="absolute inset-0 w-full h-full"
+                />
+              </motion.div>
+            </div>
           </motion.div>
         </motion.div>
       )}

@@ -2,8 +2,8 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { FiArrowDown } from "react-icons/fi";
 import { useSmoothScroll, useMediaQuery } from "../hooks/useScroll";
-import heroBackground from "../../public/images/hero_background.jpg";
-import titleIcon from "../../public/title_icon.png";
+import heroBackground from "/images/hero_background.jpg";
+import titleIcon from "/title_icon.png";
 
 // Placeholder изображения для Hero
 const heroImages = [heroBackground];

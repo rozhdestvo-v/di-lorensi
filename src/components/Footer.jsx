@@ -173,43 +173,44 @@ function Footer() {
 
               {/* Мобильные аккордеоны */}
               <div className="lg:hidden space-y-2">
-                {["Услуги", "Компания"].map((section) => (
+                {[
+                  { name: "Услуги", id: "services" },
+                  { name: "Компания", id: "company" },
+                ].map((section) => (
                   <div key={section} className="border-t border-white/10">
                     <button
-                      onClick={() => toggleSection(section)}
+                      onClick={() => toggleSection(section.name)}
                       className="w-full py-3 flex items-center justify-between text-white/80 hover:text-white transition-colors"
-                      aria-expanded={openSection === section}
+                      aria-expanded={openSection === section.name}
                     >
-                      <span className="font-medium">{section}</span>
+                      <span className="font-medium">{section.name}</span>
                       <ChevronDown
                         className={`w-4 h-4 transition-transform duration-300 ${
-                          openSection === section ? "rotate-180" : ""
+                          openSection === section.name ? "rotate-180" : ""
                         }`}
                       />
                     </button>
-                    {openSection === section && (
+                    {openSection === section.name && (
                       <motion.ul
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: "auto", opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         className="space-y-2 pb-3 overflow-hidden"
                       >
-                        {footerLinks[section.toLowerCase()].map(
-                          (link, index) => (
-                            <li key={index}>
-                              <a
-                                href={link.href}
-                                onClick={(e) => {
-                                  scrollToSection(e, link.href);
-                                  handleMobileLinkClick(link.href);
-                                }}
-                                className="text-white/60 hover:text-white transition-colors text-sm block py-1"
-                              >
-                                {link.label}
-                              </a>
-                            </li>
-                          ),
-                        )}
+                        {footerLinks[section.id]?.map((link, index) => (
+                          <li key={index}>
+                            <a
+                              href={link.href}
+                              onClick={(e) => {
+                                scrollToSection(e, link.href);
+                                handleMobileLinkClick(link.href);
+                              }}
+                              className="text-white/60 hover:text-white transition-colors text-sm block py-1"
+                            >
+                              {link.label}
+                            </a>
+                          </li>
+                        ))}
                       </motion.ul>
                     )}
                   </div>

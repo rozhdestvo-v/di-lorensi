@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useInView } from "../hooks/useScroll";
-import { Camera, MessageCircle, Award, Heart } from "lucide-react";
+import { Camera, MessageCircle, Award, Heart, Phone } from "lucide-react";
 import teamImages from "../images/team";
 
 const teamData = [
@@ -14,6 +14,8 @@ const teamData = [
     image: teamImages.Veronika,
     socials: { instagram: "@anna_nails", vk: "anna_smirnova" },
     stats: { clients: "300+", rating: "5.0" },
+    actionLink:
+      "https://n1009071.yclients.com/company/936099/personal/select-services?o=m3797696",
   },
   {
     id: 2,
@@ -25,6 +27,8 @@ const teamData = [
     image: teamImages.Alexey,
     socials: { instagram: "@elena_pedi", vk: "elena_kozlova" },
     stats: { clients: "180+", rating: "5.0" },
+    actionLink:
+      "https://n1009071.yclients.com/company/936099/personal/select-services?o=m4815075",
   },
   {
     id: 3,
@@ -35,6 +39,8 @@ const teamData = [
     image: teamImages.Maria,
     socials: { instagram: "@maria_brows", vk: "maria_volkova" },
     stats: { clients: "220+", rating: "5.0" },
+    actionLink:
+      "https://n1009071.yclients.com/company/936099/personal/select-services?o=m4799511",
   },
   {
     id: 4,
@@ -46,6 +52,8 @@ const teamData = [
     image: teamImages.Olga,
     socials: { instagram: "@olga_hair", vk: "olga_petrova" },
     stats: { clients: "400+", rating: "5.0" },
+    actionLink:
+      "https://n1009071.yclients.com/company/936099/personal/select-services?o=m3770960",
   },
 ];
 
@@ -92,7 +100,7 @@ function TeamMember({ member, index }) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
 
         {/* Соцсети */}
-        <motion.div
+        {/* <motion.div
           className="absolute top-4 right-4 flex gap-2"
           initial={{ opacity: 0, scale: 0 }}
           whileHover={{ opacity: 1, scale: 1 }}
@@ -116,7 +124,7 @@ function TeamMember({ member, index }) {
           >
             <MessageCircle className="w-5 h-5" />
           </a>
-        </motion.div>
+        </motion.div> */}
 
         {/* Статистика */}
         <div className="absolute bottom-4 left-4 right-4 flex justify-between text-white">
@@ -137,22 +145,36 @@ function TeamMember({ member, index }) {
       </div>
 
       {/* Информация */}
-      <div className="p-6">
-        <h3 className="text-xl font-display font-semibold text-text-dark mb-1">
-          {member.name}
-        </h3>
-        <p className="text-lavender-dark font-medium text-sm mb-3">
-          {member.role}
-        </p>
+      <div className="p-6 flex flex-col h-full">
+        <div>
+          <h3 className="text-xl font-display font-semibold text-text-dark mb-1">
+            {member.name}
+          </h3>
+          <p className="text-lavender-dark font-medium text-sm mb-3">
+            {member.role}
+          </p>
 
-        <div className="flex items-center gap-2 text-text-light text-sm mb-4">
-          <Heart className="w-4 h-4 text-blush-dark" />
-          <span>Опыт: {member.experience}</span>
+          <div className="flex items-center gap-2 text-text-light text-sm mb-4">
+            <Heart className="w-4 h-4 text-blush-dark" />
+            <span>Опыт: {member.experience}</span>
+          </div>
+
+          <p className="text-text-gray text-sm leading-relaxed">
+            {member.description}
+          </p>
         </div>
 
-        <p className="text-text-gray text-sm leading-relaxed">
-          {member.description}
-        </p>
+        {/* Кнопка записаться */}
+        <motion.a
+          href={member.actionLink}
+          target="_blank"
+          className="mt-4 w-full flex items-center justify-center gap-2 bg-lavender-dark text-white py-3 px-4 rounded-xl font-medium hover:bg-lavender transition-colors duration-300"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          {/* <Phone className="w-4 h-4" /> */}
+          Записаться
+        </motion.a>
       </div>
 
       {/* Декоративный элемент при наведении */}

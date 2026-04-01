@@ -1,55 +1,51 @@
 import { motion } from "framer-motion";
 import { useInView } from "../hooks/useScroll";
 import { Camera, MessageCircle, Award, Heart } from "lucide-react";
+import teamImages from "../images/team";
 
 const teamData = [
   {
     id: 1,
-    name: "Анна Смирнова",
-    role: "Топ-мастер маникюра",
-    experience: "8 лет",
+    name: "Вероника",
+    role: "Топ Бровист/Ламимейкер",
+    experience: "Более 3 лет",
     description:
-      "Специалист по сложному дизайну и наращиванию. Любит минимализм и французский маникюр.",
-    image:
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80",
+      "Сделаю Ваши брови натуральными, а взгляд открытым. Люблю быстроту и качество",
+    image: teamImages.Veronika,
     socials: { instagram: "@anna_nails", vk: "anna_smirnova" },
-    stats: { clients: "3000+", rating: "5.0" },
+    stats: { clients: "300+", rating: "5.0" },
   },
   {
     id: 2,
-    name: "Елена Козлова",
-    role: "Мастер педикюра",
-    experience: "6 лет",
+    name: "Алексей",
+    role: "Топ Ведущий мастер ногтевого сервиса",
+    experience: "Более 5 лет",
     description:
-      "Эксперт по аппаратному педикюру. Делает ваши ножки идеально гладкими.",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80",
+      "Комбинированный, аппаратный маникюр, SMART педикюр. От идеи — к идеальному маникюру",
+    image: teamImages.Alexey,
     socials: { instagram: "@elena_pedi", vk: "elena_kozlova" },
-    stats: { clients: "2000+", rating: "4.9" },
+    stats: { clients: "180+", rating: "5.0" },
   },
   {
     id: 3,
-    name: "Мария Волкова",
-    role: "Бровист-лашмейкер",
-    experience: "5 лет",
-    description:
-      "Создаёт идеальные брови и выразительный взгляд. Сертифицированный специалист.",
-    image:
-      "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=400&q=80",
+    name: "Мария К",
+    role: "Лучший мастер ногтевого сервиса",
+    experience: "4 года",
+    description: "Комбинированный, аппаратный маникюр, SMART, KART-педикюр",
+    image: teamImages.Maria,
     socials: { instagram: "@maria_brows", vk: "maria_volkova" },
-    stats: { clients: "1500+", rating: "5.0" },
+    stats: { clients: "220+", rating: "5.0" },
   },
   {
     id: 4,
-    name: "Ольга Петрова",
-    role: "Парикмахер-стилист",
-    experience: "10 лет",
+    name: "Ольга К",
+    role: "PRO Ведущий мастер ногтевого сервиса",
+    experience: "Более 5 лет",
     description:
-      "Мастер сложных окрашиваний и стрижек. Знает всё о здоровье волос.",
-    image:
-      "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=80",
+      "Один из самых быстрых мастеров студии. Опыт более 5 лет, скорость 1-1,5 часа. Максимальное число процедур за день - 12. Подберет актуальную и красивую форму ногтей, сделает красивый и качественный маникюр который будет радовать Вас каждый день.",
+    image: teamImages.Olga,
     socials: { instagram: "@olga_hair", vk: "olga_petrova" },
-    stats: { clients: "4000+", rating: "4.9" },
+    stats: { clients: "400+", rating: "5.0" },
   },
 ];
 
